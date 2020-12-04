@@ -1,0 +1,24 @@
+{
+  "name": "social-network",
+  "version": "1.0.0",
+  "description": "A Social Network API",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/janimuhlestein/social-network.git"
+  },
+  "author": "Jani Muhlestein",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/janimuhlestein/social-network/issues"
+  },
+  "homepage": "https://github.com/janimuhlestein/social-network#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.11.3"
+  }
+}
