@@ -2,13 +2,38 @@ const { json } = require('express');
 const {Thought, User} = require('../models');
 
 const thoughtController = {
+    //get all thoughts
+    getAllThoughts(req,res) {
+        Thought.find({})
+        .then(dbThoughtData=>{
+            res.json(dbThoughtData);
+        })
+        .catch(err=>{
+            console.log(err);
+            res.status(500).json(err);
+        });
+},
+    //get one thought
+    getOneThought({params},res){
+        Thought.findOne({_id: params.thoughtId})
+        .then(dbThoughtData=>{
+            if(!dbThoughtData) {
+                res.status(404).json({message: 'No thought found with that id'});
+            }
+            res.json(dbThoughtData);
+        })
+        .catch(err=>{
+            console.log(err);
+            res.status(500).json(err);
+        });
+},
     //add thought
-    addThought({params, body}, res) {
+    addThought({params, body}, res){
         Thought.create(body)
         .then(({_id})=>{
             return User.findOneAndUpdate(
                 {_id: params.userId},
-                {$push: {comments: _id}},
+                {$push: {thoughts: _id}},
                 {new: true, runValidators: true}
             );
         })
@@ -64,7 +89,7 @@ const thoughtController = {
             if(!deletedThought) {
                 return res.status(404).json({message: 'No thought with this id'});
             }
-            return Thought.findOneAndUpdate(
+            return User.findOneAndUpdate(
                 {_id: params.userId},
                 {$pull: {thoughts: params.thoughtId}},
                 {new: true}
